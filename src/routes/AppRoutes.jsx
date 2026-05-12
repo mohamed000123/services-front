@@ -1,14 +1,18 @@
-import { Route, Routes } from 'react-router-dom'
-import { MainLayout } from '@/layouts/MainLayout'
-import { Services } from '@/pages/Services'
-import { Users } from '@/pages/Users'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { DashboardLayout } from '@/layouts/DashboardLayout'
+import { LiveMonitor } from '@/pages/LiveMonitor'
+import { ServicesManage } from '@/pages/ServicesManage'
+import { UsersManage } from '@/pages/UsersManage'
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Services />} />
-        <Route path="/about" element={<Users />} />
+      <Route element={<DashboardLayout />}>
+        <Route path="/" element={<Navigate to="/monitor" replace />} />
+        <Route path="/monitor" element={<LiveMonitor />} />
+        <Route path="/services" element={<ServicesManage />} />
+        <Route path="/users" element={<UsersManage />} />
+        <Route path="*" element={<Navigate to="/monitor" replace />} />
       </Route>
     </Routes>
   )
