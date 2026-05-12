@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
+import { LogoutButton } from '@/components/layout/LogoutButton'
 import { SidebarNav } from '@/components/layout/SidebarNav'
 import { SocketStatusIndicator } from '@/components/layout/SocketStatusIndicator'
+import { getAdminSessionProfile } from '@/services/api.js'
 
 const PAGE_TITLES = [
   { prefix: '/monitor', title: 'Live monitor' },
@@ -12,6 +14,7 @@ const PAGE_TITLES = [
 export function DashboardLayout() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
+  const adminProfile = useMemo(() => getAdminSessionProfile(), [])
 
   const mobilePageTitle = useMemo(() => {
     const hit = PAGE_TITLES.find((p) => location.pathname.startsWith(p.prefix))
@@ -53,7 +56,7 @@ export function DashboardLayout() {
           mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
         ].join(' ')}
       >
-        <div className="flex h-14 shrink-0 items-center gap-2 border-b border-zinc-200 px-4 dark:border-zinc-800 md:h-16 md:px-5">
+        <div className="flex h-14 shrink-0 flex-col justify-center gap-0.5 border-b border-zinc-200 px-4 py-2 dark:border-zinc-800 md:h-16 md:px-5">
           <Link
             to="/monitor"
             className="truncate text-base font-semibold tracking-tight text-zinc-900 dark:text-white"
@@ -61,9 +64,21 @@ export function DashboardLayout() {
           >
             Service admin
           </Link>
+          {adminProfile?.fullName ? (
+            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+              {adminProfile.fullName}
+              {adminProfile.role ? ` · ${adminProfile.role}` : ''}
+            </p>
+          ) : null}
         </div>
         <SidebarNav onNavigate={() => setMobileOpen(false)} />
         <div className="mt-auto border-t border-zinc-200 p-3 dark:border-zinc-800">
+          <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            Account
+          </p>
+          <div className="mb-3 px-1">
+            <LogoutButton />
+          </div>
           <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             Real-time
           </p>
