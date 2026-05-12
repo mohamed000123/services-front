@@ -1,4 +1,10 @@
-import { api, clearAdminAuth, setAdminSessionProfile, setAuthToken } from '@/services/api.js'
+import {
+  api,
+  clearAdminAuth,
+  setAdminRefreshToken,
+  setAdminSessionProfile,
+  setAuthToken,
+} from '@/services/api.js'
 
 function pickToken(payload) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null
@@ -60,6 +66,14 @@ export async function loginAdmin(credentials) {
   else setAuthToken(null)
 
   syncSessionFromLoginBody(data)
+
+  if (data && typeof data === 'object' && !Array.isArray(data)) {
+    const o = /** @type {Record<string, unknown>} */ (data)
+    const rt = typeof o.refreshToken === 'string' ? o.refreshToken : ''
+    setAdminRefreshToken(rt || null)
+  } else {
+    setAdminRefreshToken(null)
+  }
 
   return data
 }

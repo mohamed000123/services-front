@@ -1,15 +1,13 @@
 import { NavLink } from 'react-router-dom'
-import { MonitorIcon } from '@/icons/MonitorIcon'
-import { ServicesIcon } from '@/icons/ServicesIcon'
-import { UsersIcon } from '@/icons/UsersIcon'
 
 const linkBase =
-  'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-zinc-900'
+  'flex flex-col items-start gap-0.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-zinc-900'
 
 const items = [
-  { to: '/monitor', label: 'Live monitor', Icon: MonitorIcon },
-  { to: '/services', label: 'Services', Icon: ServicesIcon },
-  { to: '/users', label: 'Users', Icon: UsersIcon },
+  { to: '/monitor', label: 'Live monitor', kicker: '' },
+  { to: '/categories', label: 'Categories', kicker: '' },
+  { to: '/services', label: 'Services', kicker: '' },
+  { to: '/users', label: 'Users', kicker: '' },
 ]
 
 export function SidebarNav({ onNavigate }) {
@@ -19,7 +17,7 @@ export function SidebarNav({ onNavigate }) {
         Menu
       </p>
       <ul className="space-y-0.5">
-        {items.map(({ to, label, Icon }) => (
+        {items.map(({ to, label, kicker }) => (
           <li key={to}>
             <NavLink
               to={to}
@@ -33,8 +31,10 @@ export function SidebarNav({ onNavigate }) {
                 ].join(' ')
               }
             >
-              <Icon className="shrink-0 opacity-90" />
-              <span>{label}</span>
+              {kicker ? (
+                <span className="text-[10px] font-semibold uppercase tracking-wider opacity-80">{kicker}</span>
+              ) : null}
+              <span className="truncate">{label}</span>
             </NavLink>
           </li>
         ))}

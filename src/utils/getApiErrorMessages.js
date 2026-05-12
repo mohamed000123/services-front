@@ -1,3 +1,24 @@
+function looksLikeHtmlDoc(s) {
+  const t = typeof s === 'string' ? s.trim() : ''
+  return t.startsWith('<!DOCTYPE') || t.startsWith('<html')
+}
+
+function friendlyHttpMessage(status) {
+  if (status === 401 || status === 403) {
+    return 'Access denied or your session expired. Please sign in again.'
+  }
+  if (status === 404) {
+    return 'The requested resource was not found.'
+  }
+  if (status === 429) {
+    return 'Too many requests. Please wait and try again.'
+  }
+  if (typeof status === 'number' && status >= 500) {
+    return 'The server had a problem. Please try again later.'
+  }
+  return null
+}
+
 /**
  * Extract human-readable messages from typical API / Axios error bodies
  * (e.g. express-validator `{ errors: [{ msg, path, ... }] }`).
@@ -7,6 +28,8 @@
  */
 export function getApiErrorMessages(err) {
   let data
+  /** @type {number | undefined} */
+  let httpStatus
   /** @type {string | undefined} */
   let errMessage
 
@@ -18,14 +41,21 @@ export function getApiErrorMessages(err) {
     if (res != null && typeof res === 'object' && !Array.isArray(res)) {
       const r = /** @type {Record<string, unknown>} */ (res)
       data = r.data
+      if (typeof r.status === 'number') httpStatus = r.status
     }
   }
 
   if (data == null || data === '') {
+    const hint = friendlyHttpMessage(httpStatus)
+    if (hint) return [hint]
     return errMessage ? [errMessage] : ['Something went wrong']
   }
 
   if (typeof data === 'string') {
+    if (looksLikeHtmlDoc(data)) {
+      const hint = friendlyHttpMessage(httpStatus)
+      return [hint || 'The server returned an unexpected response. Please try again or sign in.']
+    }
     return [data]
   }
 

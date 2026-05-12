@@ -9,10 +9,10 @@ const variants = {
     className:
       'bg-sky-50 text-sky-900 ring-sky-200/80 dark:bg-sky-950/50 dark:text-sky-100 dark:ring-sky-800/80',
   },
-  completed: {
-    label: 'Completed',
+  cancelled: {
+    label: 'Cancelled',
     className:
-      'bg-emerald-50 text-emerald-900 ring-emerald-200/80 dark:bg-emerald-950/40 dark:text-emerald-100 dark:ring-emerald-800/80',
+      'bg-zinc-100 text-zinc-900 ring-zinc-300/80 dark:bg-zinc-800/80 dark:text-zinc-100 dark:ring-zinc-600/80',
   },
 }
 

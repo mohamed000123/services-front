@@ -7,6 +7,7 @@ import { getAdminSessionProfile } from '@/services/api.js'
 
 const PAGE_TITLES = [
   { prefix: '/monitor', title: 'Live monitor' },
+  { prefix: '/categories', title: 'Categories' },
   { prefix: '/services', title: 'Services' },
   { prefix: '/users', title: 'Users' },
 ]
@@ -93,15 +94,13 @@ export function DashboardLayout() {
         <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-zinc-200 bg-white/95 px-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95 md:hidden">
           <button
             type="button"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-800 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
+            className="inline-flex h-10 min-w-[2.5rem] shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white px-2 text-xs font-bold uppercase tracking-wide text-zinc-800 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
             aria-expanded={mobileOpen}
             aria-controls="app-sidebar"
             aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
             onClick={() => setMobileOpen((open) => !open)}
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden>
-              <path strokeLinecap="round" strokeWidth="2" d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
+            Menu
           </button>
           <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-900 dark:text-white">
             {mobilePageTitle}
